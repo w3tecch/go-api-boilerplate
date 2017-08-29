@@ -1,0 +1,15 @@
+{
+	"files.exclude": {
+		"**/.git": true,
+		"**/.svn": true,
+		"**/.hg": true,
+		"**/CVS": true,
+		"**/.DS_Store": true,
+		"**/tmp": true
+	},
+	"cSpell.ignorePaths": [
+		"**/go/src/github.com/**",
+		"**/usr/local/go/**",
+		"/usr/local/go/src/**"
+	]
+}
