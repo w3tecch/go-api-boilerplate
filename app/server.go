@@ -1,10 +1,9 @@
 package app
 
 import (
-	"fmt"
-
 	"github.com/phyber/negroni-gzip/gzip"
 	"github.com/urfave/negroni"
+	"github.com/w3tecch/go-api-boilerplate/app/middlewares"
 )
 
 // NewServer ...
@@ -18,9 +17,9 @@ func NewServer() *negroni.Negroni {
 	server.Use(middlewares.LogMiddleware())
 
 	// auth0Middleware := middlewares.Auth0Middleware{Endpoint: ""}
-	auth0Middleware := new(middlewares.Auth0Middleware)
-	fmt.Println(auth0Middleware)
-	server.Use(auth0Middleware)
+	// auth0Middleware := new(middlewares.Auth0Middleware)
+	// fmt.Println(auth0Middleware)
+	// server.Use(auth0Middleware)
 
 	// Attach app router
 	server.UseHandler(NewRouter())

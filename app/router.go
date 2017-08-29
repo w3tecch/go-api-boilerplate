@@ -2,7 +2,7 @@ package app
 
 import (
 	"github.com/gorilla/mux"
-	"w3tec.ch/boilerplate/app/ctrl"
+	"github.com/w3tecch/go-api-boilerplate/app/ctrl"
 )
 
 // NewRouter ...
