@@ -23,6 +23,7 @@ type User struct {
 
 	FirstName string `json:"firstname, omitempty" gorm:"not null; type:varchar(100)"`
 	LastName  string `json:"lastname, omitempty" gorm:"not null; type:varchar(100)"`
+	Email     string `json:"email, omitempty" gorm:"not null; type:varchar(100)"`
 }
 
 // TableName set User's table name to be `profiles`
