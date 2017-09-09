@@ -7,6 +7,12 @@ import (
 	"github.com/w3tecch/go-api-boilerplate/app/models"
 )
 
+// GetMeHandler ...
+func GetMeHandler(w http.ResponseWriter, req *http.Request) {
+	res := lib.Response{ResponseWriter: w}
+	res.SendNotImplemented()
+}
+
 // GetAllUsersHandler ...
 func GetAllUsersHandler(w http.ResponseWriter, req *http.Request) {
 	res := lib.Response{ResponseWriter: w}
