@@ -31,25 +31,18 @@ func (User) TableName() string {
 	return "users"
 }
 
-// FetchAll ...
-func (u *User) FetchAll() []User {
+// All ...
+func (u *User) All() (users []User, err error) {
 	db := config.GetDatabaseConnection()
-
-	var users []User
-	db.Find(&users)
-
-	return users
+	err = db.Find(&users).Error
+	return users, err
 }
 
-// FetchById ...
-func (u *User) FetchById() error {
+// One ...
+func (u *User) One(id int64) (user User, err error) {
 	db := config.GetDatabaseConnection()
-
-	if err := db.Where("id = ?", u.ID).Find(&u).Error; err != nil {
-		return errors.New("Could not find the user")
-	}
-
-	return nil
+	err = db.Where("id = ?", id).Find(&user).Error
+	return user, err
 }
 
 // // Create ...

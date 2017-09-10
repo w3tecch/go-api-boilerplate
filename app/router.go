@@ -34,8 +34,6 @@ func Router() *gin.Engine {
 	r.GET("/api/info", apiController.GetInfo)
 
 	// Users endpoints
-	r.Group("/api/users")
-
 	users := r.Group("/api/users")
 	{
 		userController := new(controllers.UserController)
