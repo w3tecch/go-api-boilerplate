@@ -1,31 +1,36 @@
 package app
 
 import (
-	"github.com/gorilla/mux"
 	"github.com/w3tecch/go-api-boilerplate/app/ctrl"
+	"github.com/w3tecch/go-api-boilerplate/app/middlewares"
+
+	"github.com/gin-gonic/gin"
 )
 
-// NewRouter ...
-func NewRouter() *mux.Router {
+// Router ...
+func Router() *gin.Engine {
+	// Creates a router without any middleware by default
+	r := gin.New()
 
-	//Create main router
-	mainRouter := mux.NewRouter().StrictSlash(true)
-	mainRouter.KeepContext = true
+	// Global middleware
+	// ------------------------------
+	// Logger middleware will write the logs to gin.DefaultWriter even you set with GIN_MODE=release.
+	// By default gin.DefaultWriter = os.Stdout
+	r.Use(gin.Logger())
 
-	/**
-	 * meta-data
-	 */
-	mainRouter.Methods("GET").Path("/api/info").HandlerFunc(ctrl.GetAPIInfo)
+	// Recovery middleware recovers from any panics and writes a 500 if there was one.
+	r.Use(gin.Recovery())
 
-	/**
-	 * /users
-	 */
-	// usersRouter.HandleFunc("/", l.Use(c.GetAllUsersHandler, m.SaySomething())).Methods("GET")
-	mainRouter.Methods("GET").Path("/api/users").HandlerFunc(ctrl.GetAllUsersHandler)
-	mainRouter.Methods("POST").Path("/api/users").HandlerFunc(ctrl.CreateUserHandler)
-	mainRouter.Methods("GET").Path("/api/users/{id}").HandlerFunc(ctrl.GetUserByIdHandler)
-	mainRouter.Methods("PUT").Path("/api/users/{id}").HandlerFunc(ctrl.UpdateUserHandler)
-	mainRouter.Methods("DELETE").Path("/api/users/{id}").HandlerFunc(ctrl.DeleteUserHandler)
+	// Custom middlewares
+	r.Use(middlewares.Secure)
+	r.Use(middlewares.CORS)
+	r.Use(middlewares.NoCache)
+	r.Use(middlewares.Version)
 
-	return mainRouter
+	// Controller Routes
+	// ------------------------------
+	// Return the api information to the user
+	r.GET("/api/info", ctrl.GetAPIInfo)
+
+	return r
 }

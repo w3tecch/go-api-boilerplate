@@ -4,7 +4,7 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/w3tecch/go-api-boilerplate/app/lib"
+	"github.com/gin-gonic/gin"
 )
 
 // APIInfo ...
@@ -14,9 +14,13 @@ type APIInfo struct {
 }
 
 // GetAPIInfo ...
-func GetAPIInfo(w http.ResponseWriter, r *http.Request) {
-	res := lib.Response{ResponseWriter: w}
-	res.SendOK(APIInfo{
+func GetAPIInfo(c *gin.Context) {
+	// res := lib.Response{ResponseWriter: w}
+	// res.SendOK(APIInfo{
+	// 	Name:    os.Getenv("API_TITLE"),
+	// 	Version: os.Getenv("API_VERSION"),
+	// })
+	c.JSON(http.StatusOK, APIInfo{
 		Name:    os.Getenv("API_TITLE"),
 		Version: os.Getenv("API_VERSION"),
 	})
