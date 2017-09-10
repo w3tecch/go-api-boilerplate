@@ -1,7 +1,7 @@
 package app
 
 import (
-	"github.com/w3tecch/go-api-boilerplate/app/ctrl"
+	"github.com/w3tecch/go-api-boilerplate/app/controllers"
 	"github.com/w3tecch/go-api-boilerplate/app/middlewares"
 
 	"github.com/gin-gonic/gin"
@@ -30,7 +30,19 @@ func Router() *gin.Engine {
 	// Controller Routes
 	// ------------------------------
 	// Return the api information to the user
-	r.GET("/api/info", ctrl.GetAPIInfo)
+	apiController := new(controllers.APIController)
+	r.GET("/api/info", apiController.GetInfo)
+
+	// Users endpoints
+	r.Group("/api/users")
+
+	users := r.Group("/api/users")
+	{
+		userController := new(controllers.UserController)
+		users.GET("/", userController.GetAll)
+		users.POST("/", userController.Create)
+		// users.GET("/:id", ctrl.GetUserById)
+	}
 
 	return r
 }
