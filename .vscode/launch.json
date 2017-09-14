@@ -6,7 +6,8 @@
 			"type": "go",
 			"request": "launch",
 			"mode": "debug",
-			"program": "${workspaceRoot}"
+			"program": "${workspaceRoot}",
+			"env": {}
 		}
 		// {
 		// 	"name": "Launch",

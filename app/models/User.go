@@ -1,7 +1,6 @@
 package models
 
 import (
-	"errors"
 	"time"
 
 	"github.com/w3tecch/go-api-boilerplate/app/config"
@@ -9,27 +8,37 @@ import (
 
 // User ...
 type User struct {
-	// We could use this templates, but this does not work with this
-	// user := models.User{
-	// 	ID: id,
-	// }
-	// gorm.Model `json:"-"`
-	// lib.BaseModel
-
-	ID        int        `json:"id" gorm:"primary_key"`
+	ID        int64      `json:"id" gorm:"primary_key"`
 	CreatedAt *time.Time `json:"createdAt, omitempty"`
 	UpdatedAt *time.Time `json:"updatedAt, omitempty"`
 	DeletedAt *time.Time `json:"deletedAt, omitempty" sql:"index"`
 
-	FirstName string `json:"firstname, omitempty" gorm:"not null; type:varchar(100)"`
-	LastName  string `json:"lastname, omitempty" gorm:"not null; type:varchar(100)"`
-	Email     string `json:"email, omitempty" gorm:"not null; type:varchar(100)"`
+	FirstName *string    `json:"firstname, omitempty" gorm:"type:varchar(100)"`
+	LastName  *string    `json:"lastname, omitempty" gorm:"not null; type:varchar(100)"`
+	Email     *string    `json:"email, omitempty" gorm:"not null; type:varchar(100)"`
+	Birthday  *time.Time `json:"birthday"`
+	PassCode  *int       `json:"passCode"`
+	Weight    *float64   `json:"weight"`
+}
+
+// UserForm ...
+type UserForm struct {
+	FirstName *string    `json:"firstname" binding:"required"`
+	LastName  *string    `json:"lastname" binding:"required"`
+	Email     *string    `json:"email" binding:"required"`
+	Birthday  *time.Time `json:"birthday"`
+	PassCode  *int       `json:"passCode"`
+	Weight    *float64   `json:"weight"`
 }
 
 // TableName set User's table name to be `profiles`
 func (User) TableName() string {
 	return "users"
 }
+
+/**
+ * Static Methods
+ */
 
 // All ...
 func (u *User) All() (users []User, err error) {
@@ -45,46 +54,71 @@ func (u *User) One(id int64) (user User, err error) {
 	return user, err
 }
 
-// // Create ...
-// func (u *User) Create() error {
-// 	db := config.GetDatabaseConnection()
-
-// 	// Validate record
-// 	if !db.NewRecord(u) { // => returns `true` as primary key is blank
-// 		return errors.New("New records can not have primary key id")
-// 	}
-
-// 	if err := db.Create(&u).Error; err != nil {
-// 		return errors.New("Could not create user")
-// 	}
-
-// 	return nil
-// }
-
-// Save ...
-func (u *User) Save() error {
+// Create ...
+func (u *User) Create(form UserForm) (user User, err error) {
 	db := config.GetDatabaseConnection()
+	u.mergeForm(form)
+	err = db.Create(&u).Error
+	return *u, err
+}
 
-	if db.NewRecord(u) {
-		if err := db.Create(&u).Error; err != nil {
-			return errors.New("Could not create user")
-		}
-	} else {
-		if err := db.Save(&u).Error; err != nil {
-			return errors.New("Could not update user")
-		}
+// Update ...
+func (u *User) Update(id int64, form UserForm) (user User, err error) {
+	db := config.GetDatabaseConnection()
+	u.ID = id
+	err = db.Model(&u).Updates(form).Error
+	if err != nil {
+		return *u, err
 	}
-
-	return nil
+	err = u.Fetch()
+	return *u, err
 }
 
 // Delete ...
-func (u *User) Delete() error {
+func (u *User) Delete(id int64) (user User, err error) {
 	db := config.GetDatabaseConnection()
+	u.ID = id
+	err = db.Delete(&u).Error
+	return *u, err
+}
 
-	if err := db.Delete(&u).Error; err != nil {
-		return errors.New("Could not find the user")
+/**
+ * Instance Methods
+ */
+
+// Fetch ...
+func (u *User) Fetch() (err error) {
+	db := config.GetDatabaseConnection()
+	err = db.Where("id = ?", u.ID).Find(&u).Error
+	return err
+}
+
+// Save ...
+func (u *User) Save() (err error) {
+	db := config.GetDatabaseConnection()
+	if db.NewRecord(&u) {
+		err = db.Create(&u).Error
+	} else {
+		err = db.Save(&u).Error
 	}
+	return err
+}
 
-	return nil
+// Destroy ...
+func (u *User) Destroy() (err error) {
+	db := config.GetDatabaseConnection()
+	err = db.Delete(&u).Error
+	return err
+}
+
+/**
+ * Private Helpers
+ */
+func (u *User) mergeForm(form UserForm) {
+	u.Email = form.Email
+	u.FirstName = form.FirstName
+	u.LastName = form.LastName
+	u.Birthday = form.Birthday
+	u.PassCode = form.PassCode
+	u.Weight = form.Weight
 }
