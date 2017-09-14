@@ -5,7 +5,7 @@ import (
 	"strconv"
 
 	"github.com/gin-gonic/gin"
-	"github.com/w3tecch/go-api-boilerplate/app/lib"
+	"github.com/w3tecch/go-api-boilerplate/app/lib/ginfix"
 	"github.com/w3tecch/go-api-boilerplate/app/models"
 )
 
