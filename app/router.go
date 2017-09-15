@@ -26,6 +26,7 @@ func Router() *gin.Engine {
 	r.Use(middlewares.CORS)
 	r.Use(middlewares.NoCache)
 	r.Use(middlewares.Version)
+	r.Use(middlewares.Authentication)
 
 	// Controller Routes
 	// ------------------------------
