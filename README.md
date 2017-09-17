@@ -2,8 +2,8 @@
 
 ## ToDo's
 
-[ ] Write logger wrapper with scope
-[ ] Add own migration logic
+[X] Write logger wrapper with scope
+[X] Add own migration logic
 [ ] Add own seeding logic
 
 ### Operations
