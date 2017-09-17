@@ -26,5 +26,8 @@ func GetDatabaseConnection() *gorm.DB {
 	// Store the connection in package variable for furher request
 	gormConn = conn
 
+	// Disable logging
+	gormConn.LogMode(false)
+
 	return gormConn
 }

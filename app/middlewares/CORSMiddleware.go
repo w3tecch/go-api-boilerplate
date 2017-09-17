@@ -1,22 +1,21 @@
 package middlewares
 
-import "github.com/rs/cors"
+import (
+	"github.com/gin-gonic/gin"
+)
 
-// // CORSMiddleware ...
-// type CORSMiddleware struct{}
-
-// func (c *CORSMiddleware) ServeHTTP(rw http.ResponseWriter, r *http.Request, next http.HandlerFunc) {
-// 	next(rw, r)
-
-// 	rw.Header().Set("Access-Control-Allow-Origin", "*")
-// 	rw.Header().Set("Access-Control-Allow-Origin", "POST, GET, OPTIONS, PUT, DELETE")
-// 	rw.Header().Set("Access-Control-Allow-Headers", "Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token")
-// 	rw.Header().Set("Access-Control-Allow-Credentials", "true")
-// }
-
-// CORSMiddleware ...
-func CORSMiddleware() *cors.Cors {
-	return cors.New(cors.Options{
-		AllowedMethods: []string{"GET", "POST", "PUT", "DELETE"},
-	})
+// CORS is a middleware function that appends headers
+// for options requests and aborts then exits the middleware
+// chain and ends the request.
+func CORS(c *gin.Context) {
+	if c.Request.Method != "OPTIONS" {
+		c.Next()
+	} else {
+		c.Header("Access-Control-Allow-Origin", "*")
+		c.Header("Access-Control-Allow-Methods", "GET,POST,PUT,PATCH,DELETE,OPTIONS")
+		c.Header("Access-Control-Allow-Headers", "authorization, origin, content-type, accept")
+		c.Header("Allow", "HEAD,GET,POST,PUT,PATCH,DELETE,OPTIONS")
+		c.Header("Content-Type", "application/json")
+		c.AbortWithStatus(200)
+	}
 }

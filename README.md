@@ -1,6 +1,10 @@
 # Boilerplate for REST API in go
 
-## Get started
+## ToDo's
+
+[ ] Write logger wrapper with scope
+[ ] Add own migration logic
+[ ] Add own seeding logic
 
 ### Operations
 
@@ -10,7 +14,7 @@
 | **run**   | `go run *`   | Runs the app |
 | **build** | `go build *` | Builds the app. |
 
-## Librarys
+## Library's
 
 - **Router** [mux](http://www.gorillatoolkit.org/pkg/mux)
 - **Middlewares** [negroni](https://github.com/urfave/negroni)

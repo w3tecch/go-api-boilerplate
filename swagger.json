@@ -1,0 +1,55 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "This is skeleton app for a restful API written in golang.",
+    "version": "1.0.0",
+    "title": "GO API Skeleton"
+  },
+  "host": "go.w3tec.ch",
+  "basePath": "/api",
+  "schemes": [
+    "http"
+  ],
+  "tags": [
+    {
+      "name": "api"
+    }
+  ],
+  "paths": {
+    "/info": {
+      "get": {
+        "tags": [
+          "api"
+        ],
+        "summary": "Returns the information of our API",
+        "operationId": "getAPIInfo",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/APIInfo"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "APIInfo": {
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string",
+          "example": "Name of the API"
+        },
+        "version": {
+          "type": "string",
+          "example": "1.2.5"
+        }
+      }
+    }
+  }
+}
