@@ -3,7 +3,7 @@ package models
 import (
 	"time"
 
-	"github.com/w3tecch/go-api-boilerplate/app/config"
+	"github.com/w3tecch/go-api-boilerplate/config"
 )
 
 // User ...
@@ -31,7 +31,7 @@ type UserForm struct {
 	Weight    *float64   `json:"weight"`
 }
 
-// TableName set User's table name to be `profiles`
+// TableName set User's table name to be `users`
 func (User) TableName() string {
 	return "users"
 }
