@@ -1,6 +1,8 @@
+// TODO: Move this to config folder
 package logger
 
 import "github.com/sirupsen/logrus"
+import "fmt"
 
 // Logger ...
 type Logger struct {
@@ -11,6 +13,11 @@ type Logger struct {
 // SetScope ...
 func (l *Logger) SetScope(scope string) {
 	l.Scope = scope
+}
+
+// LineBreak ...
+func (l *Logger) LineBreak() {
+	fmt.Println()
 }
 
 // WithFields ...

@@ -26,13 +26,14 @@ func Router() *gin.Engine {
 	r.Use(middlewares.CORS)
 	r.Use(middlewares.NoCache)
 	r.Use(middlewares.Version)
-	r.Use(middlewares.Authentication)
+	// r.Use(middlewares.Authentication)
 
 	// Controller Routes
 	// ------------------------------
 	// Return the api information to the user
 	apiController := new(controllers.APIController)
 	r.GET("/api/info", apiController.GetInfo)
+	r.GET("/api/seeding", apiController.Seeding)
 
 	// Users endpoints
 	users := r.Group("/api/users")

@@ -1,8 +1,6 @@
 package migrate
 
 import (
-	"fmt"
-
 	"github.com/sirupsen/logrus"
 
 	"github.com/w3tecch/go-api-boilerplate/lib/logger"
@@ -13,7 +11,6 @@ var MigrationLog = logger.Logger{Scope: "migrate"}
 
 // Sync ...
 func Sync() {
-	fmt.Println()
 	MigrationLog.Info("Start migrating database")
 
 	// Check if migration table is setup
@@ -21,7 +18,6 @@ func Sync() {
 		MigrationLog.Info("Creating migration table in the database")
 		if err := CreateMigrationTable(); err != nil {
 			MigrationLog.Fatal("Failed to create migration table")
-			panic(err)
 		} else {
 			MigrationLog.Info("Successfully created migration table")
 		}
@@ -53,5 +49,4 @@ func Sync() {
 		MigrationLog.Info("Database was successfully migrated")
 	}
 
-	fmt.Println()
 }

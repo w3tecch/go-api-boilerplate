@@ -8,8 +8,10 @@ import (
 	_ "github.com/jinzhu/gorm/dialects/mysql"
 	"github.com/joho/godotenv"
 
+	"github.com/w3tecch/go-api-boilerplate/app"
 	"github.com/w3tecch/go-api-boilerplate/lib/logger"
 	"github.com/w3tecch/go-api-boilerplate/lib/migrate"
+	"github.com/w3tecch/go-api-boilerplate/lib/seeder"
 )
 
 // ServerLog ...
@@ -31,10 +33,15 @@ func main() {
 	}).Info("API information")
 	ServerLog.Info("Starting Server on http://localhost" + os.Getenv("API_PORT"))
 
-	// Creates the database schema
+	// Migrates the database with out migrations scripts
+	ServerLog.LineBreak()
 	migrate.Sync()
 
-	// // Listen on the given port on localhost
-	// r := app.Router()
-	// r.Run(os.Getenv("API_PORT"))
+	// Initialize seeder
+	ServerLog.LineBreak()
+	seeder.Sync()
+
+	// Listen on the given port on localhost
+	r := app.Router()
+	r.Run(os.Getenv("API_PORT"))
 }

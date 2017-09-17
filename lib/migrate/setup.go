@@ -21,5 +21,5 @@ func createVersionTableSQL() string {
             name varchar(255) UNIQUE,
             migrated_at timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
             PRIMARY KEY(id)
-        	);`
+        	) ENGINE=InnoDB DEFAULT CHARSET=utf8;`
 }
