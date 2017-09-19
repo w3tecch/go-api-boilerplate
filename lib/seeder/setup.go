@@ -1,6 +1,7 @@
 package seeder
 
 import "github.com/w3tecch/go-api-boilerplate/config"
+import "fmt"
 
 // IsSeederTableReady ...
 func IsSeederTableReady() bool {
@@ -18,7 +19,16 @@ func CreateSeederTable() (err error) {
 // LockDatabase ...
 func LockDatabase() (err error) {
 	db := config.GetDatabaseConnection()
-	err = db.Exec(getLockStatment(), 1).Error
+	err = db.Exec(updateLockStatment()).Error
+	fmt.Println(updateLockStatment())
+	fmt.Println(err)
+	return err
+}
+
+// InsertLockDatabase ...
+func InsertLockDatabase() (err error) {
+	db := config.GetDatabaseConnection()
+	err = db.Exec(getInsertLockStatment(), 1).Error
 	return err
 }
 
@@ -29,6 +39,10 @@ func createSeederTableSQL() string {
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;`
 }
 
-func getLockStatment() string {
+func getInsertLockStatment() string {
 	return `INSERT INTO seeder (is_locked) VALUES (?);`
+}
+
+func updateLockStatment() string {
+	return `UPDATE seeder SET is_locked=1, locked_at=CURRENT_TIMESTAMP WHERE is_locked=0;`
 }

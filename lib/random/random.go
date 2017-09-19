@@ -6,7 +6,7 @@ import (
 )
 
 // Int ...
-func Int(min, max int) int {
+func Int(min int, max int) int {
 	rand.Seed(time.Now().Unix())
 	return rand.Intn(max-min) + min
 }

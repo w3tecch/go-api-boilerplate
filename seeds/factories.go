@@ -1,6 +1,8 @@
 package seeds
 
 import (
+	"strings"
+
 	"github.com/icrowley/fake"
 	"github.com/w3tecch/go-api-boilerplate/app/models"
 	"github.com/w3tecch/go-api-boilerplate/lib/random"
@@ -10,9 +12,9 @@ import (
 func FakeUser() (u models.User) {
 	firstName := fake.FirstName()
 	lastName := fake.LastName()
-	email := firstName + "." + lastName + "@" + fake.DomainName()
+	email := strings.ToLower(firstName) + "." + strings.ToLower(lastName) + "@" + strings.ToLower(fake.DomainName())
 	birthday := random.Date()
-	passCode := random.Int(1000000, 999999)
+	passCode := random.Int(100000, 999999)
 	weight := random.Float64(30, 120)
 
 	u.FirstName = &firstName

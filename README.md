@@ -4,7 +4,7 @@
 
 [X] Write logger wrapper with scope
 [X] Add own migration logic
-[ ] Add own seeding logic
+[X] Add own seeding logic
 
 ### Operations
 

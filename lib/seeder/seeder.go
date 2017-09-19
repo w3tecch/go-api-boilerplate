@@ -31,7 +31,7 @@ func Sync() {
 			SeederLog.Fatal("Failed to create seeding table")
 		} else {
 			SeederLog.Info("Successfully created seeding table")
-			if err := LockDatabase(); err != nil {
+			if err := InsertLockDatabase(); err != nil {
 				SeederLog.Fatal("Failed to lock seeding table")
 			} else {
 				SeederLog.Info("Successfully locked seeding table")

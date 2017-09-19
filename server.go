@@ -24,7 +24,15 @@ func main() {
 		ServerLog.Fatal("Error loading .env file")
 	}
 
+	// Migrates the database with out migrations scripts
+	migrate.Sync()
+
+	// Initialize seeder
+	ServerLog.LineBreak()
+	seeder.Sync()
+
 	// Prints the version and the address of our api to the console
+	ServerLog.LineBreak()
 	ServerLog.WithFields(logrus.Fields{
 		"title":    os.Getenv("API_TITLE"),
 		"version":  os.Getenv("API_VERSION"),
@@ -32,16 +40,10 @@ func main() {
 		"gin_mode": os.Getenv("GIN_MODE"),
 	}).Info("API information")
 	ServerLog.Info("Starting Server on http://localhost" + os.Getenv("API_PORT"))
-
-	// Migrates the database with out migrations scripts
 	ServerLog.LineBreak()
-	migrate.Sync()
-
-	// Initialize seeder
-	ServerLog.LineBreak()
-	seeder.Sync()
 
 	// Listen on the given port on localhost
 	r := app.Router()
 	r.Run(os.Getenv("API_PORT"))
+
 }
