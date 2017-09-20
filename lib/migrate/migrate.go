@@ -2,12 +2,11 @@ package migrate
 
 import (
 	"github.com/sirupsen/logrus"
-
-	"github.com/w3tecch/go-api-boilerplate/lib/logger"
+	"github.com/w3tecch/go-api-boilerplate/config"
 )
 
 // MigrationLog ...
-var MigrationLog = logger.Logger{Scope: "migrate"}
+var MigrationLog = config.Logger{Scope: "migrate"}
 
 // Sync ...
 func Sync() {

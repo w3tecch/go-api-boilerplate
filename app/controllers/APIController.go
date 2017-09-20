@@ -37,7 +37,7 @@ func (ctrl APIController) Seeding(c *gin.Context) {
 	}
 
 	// Seeding data to the database
-	seeds.SeedUsers()
+	seeds.DatabaseSeeds()
 
 	// After seeding the database will be locked again
 	seeder.LockDatabase()

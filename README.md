@@ -5,6 +5,8 @@
 [X] Write logger wrapper with scope
 [X] Add own migration logic
 [X] Add own seeding logic
+[X] Move seed oder to the seeds folder
+[X] Move forms to own folder
 
 ### Operations
 

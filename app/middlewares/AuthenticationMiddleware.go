@@ -8,6 +8,7 @@ import (
 
 	jwtmiddleware "github.com/auth0/go-jwt-middleware"
 	"github.com/gin-gonic/gin"
+	"github.com/w3tecch/go-api-boilerplate/config"
 )
 
 // Options to configure the middleware
@@ -39,6 +40,9 @@ type TokenInfo struct {
 
 // AuthenticationKey ...
 var AuthenticationKey = "AUTH_TOKEN"
+
+// AuthenticationLog ...
+var AuthenticationLog = config.Logger{Scope: "app.middlewares.Authentication"}
 
 // Authentication ...
 func Authentication(c *gin.Context) {
@@ -95,6 +99,7 @@ func Authentication(c *gin.Context) {
 	c.Set(AuthenticationKey, tokenInfo)
 
 	// Go on
+	AuthenticationLog.Info("Successfully authenticated")
 	c.Next()
 
 }

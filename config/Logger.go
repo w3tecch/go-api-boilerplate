@@ -1,5 +1,4 @@
-// TODO: Move this to config folder
-package logger
+package config
 
 import "github.com/sirupsen/logrus"
 import "fmt"

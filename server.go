@@ -9,13 +9,13 @@ import (
 	"github.com/joho/godotenv"
 
 	"github.com/w3tecch/go-api-boilerplate/app"
-	"github.com/w3tecch/go-api-boilerplate/lib/logger"
+	"github.com/w3tecch/go-api-boilerplate/config"
 	"github.com/w3tecch/go-api-boilerplate/lib/migrate"
 	"github.com/w3tecch/go-api-boilerplate/lib/seeder"
 )
 
 // ServerLog ...
-var ServerLog = logger.Logger{Scope: "server"}
+var ServerLog = config.Logger{Scope: "server"}
 
 func main() {
 	// Loads the env variables

@@ -4,11 +4,10 @@ import (
 	"time"
 
 	"github.com/w3tecch/go-api-boilerplate/config"
-	"github.com/w3tecch/go-api-boilerplate/lib/logger"
 )
 
 // SeederLog ...
-var SeederLog = logger.Logger{Scope: "seeder"}
+var SeederLog = config.Logger{Scope: "seeder"}
 
 // SeederRecord ...
 type SeederRecord struct {

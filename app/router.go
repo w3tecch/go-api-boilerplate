@@ -3,6 +3,9 @@ package app
 import (
 	"github.com/w3tecch/go-api-boilerplate/app/controllers"
 	"github.com/w3tecch/go-api-boilerplate/app/middlewares"
+	"github.com/w3tecch/go-api-boilerplate/app/repositories"
+	"github.com/w3tecch/go-api-boilerplate/app/services"
+	"github.com/w3tecch/go-api-boilerplate/config"
 
 	"github.com/gin-gonic/gin"
 )
@@ -28,6 +31,16 @@ func Router() *gin.Engine {
 	r.Use(middlewares.Version)
 	// r.Use(middlewares.Authentication)
 
+	// Define repos and services
+	// ------------------------------
+	db := config.GetDatabaseConnection()
+
+	// Repositories
+	userRepository := repositories.NewUserRepository(db)
+
+	// Services
+	userService := services.NewUserService(userRepository)
+
 	// Controller Routes
 	// ------------------------------
 	// Return the api information to the user
@@ -38,7 +51,7 @@ func Router() *gin.Engine {
 	// Users endpoints
 	users := r.Group("/api/users")
 	{
-		userController := new(controllers.UserController)
+		userController := controllers.NewUserController(userService)
 		users.GET("/", userController.GetAll)
 		users.POST("/", userController.Create)
 		users.GET("/:id", userController.GetByID)

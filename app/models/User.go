@@ -2,8 +2,6 @@ package models
 
 import (
 	"time"
-
-	"github.com/w3tecch/go-api-boilerplate/config"
 )
 
 // User ...
@@ -21,104 +19,81 @@ type User struct {
 	Weight    *float64   `json:"weight"`
 }
 
-// UserForm ...
-type UserForm struct {
-	FirstName *string    `json:"firstname" binding:"required"`
-	LastName  *string    `json:"lastname" binding:"required"`
-	Email     *string    `json:"email" binding:"required"`
-	Birthday  *time.Time `json:"birthday"`
-	PassCode  *int       `json:"passCode"`
-	Weight    *float64   `json:"weight"`
-}
-
 // TableName set User's table name to be `users`
 func (User) TableName() string {
 	return "users"
 }
 
-/**
- * Static Methods
- */
+// /**
+//  * Static Methods
+//  */
+// // All ...
+// func (u *User) All() (users []User, err error) {
+// 	db := config.GetDatabaseConnection()
+// 	err = db.Find(&users).Error
+// 	return users, err
+// }
 
-// All ...
-func (u *User) All() (users []User, err error) {
-	db := config.GetDatabaseConnection()
-	err = db.Find(&users).Error
-	return users, err
-}
+// // One ...
+// func (u *User) One(id int64) (user User, err error) {
+// 	db := config.GetDatabaseConnection()
+// 	err = db.Where("id = ?", id).Find(&user).Error
+// 	return user, err
+// }
 
-// One ...
-func (u *User) One(id int64) (user User, err error) {
-	db := config.GetDatabaseConnection()
-	err = db.Where("id = ?", id).Find(&user).Error
-	return user, err
-}
+// // Create ...
+// func (u *User) Create(form UserForm) (user User, err error) {
+// 	db := config.GetDatabaseConnection()
+// 	u.mergeForm(form)
+// 	err = db.Create(&u).Error
+// 	return *u, err
+// }
 
-// Create ...
-func (u *User) Create(form UserForm) (user User, err error) {
-	db := config.GetDatabaseConnection()
-	u.mergeForm(form)
-	err = db.Create(&u).Error
-	return *u, err
-}
+// // Update ...
+// func (u *User) Update(id int64, form UserForm) (user User, err error) {
+// 	db := config.GetDatabaseConnection()
+// 	u.ID = id
+// 	err = db.Model(&u).Updates(form).Error
+// 	if err != nil {
+// 		return *u, err
+// 	}
+// 	err = u.Fetch()
+// 	return *u, err
+// }
 
-// Update ...
-func (u *User) Update(id int64, form UserForm) (user User, err error) {
-	db := config.GetDatabaseConnection()
-	u.ID = id
-	err = db.Model(&u).Updates(form).Error
-	if err != nil {
-		return *u, err
-	}
-	err = u.Fetch()
-	return *u, err
-}
+// // Delete ...
+// func (u *User) Delete(id int64) (user User, err error) {
+// 	db := config.GetDatabaseConnection()
+// 	u.ID = id
+// 	err = db.Delete(&u).Error
+// 	return *u, err
+// }
 
-// Delete ...
-func (u *User) Delete(id int64) (user User, err error) {
-	db := config.GetDatabaseConnection()
-	u.ID = id
-	err = db.Delete(&u).Error
-	return *u, err
-}
+// /**
+//  * Instance Methods
+//  */
 
-/**
- * Instance Methods
- */
+// // Fetch ...
+// func (u *User) Fetch() (err error) {
+// 	db := config.GetDatabaseConnection()
+// 	err = db.Where("id = ?", u.ID).Find(&u).Error
+// 	return err
+// }
 
-// Fetch ...
-func (u *User) Fetch() (err error) {
-	db := config.GetDatabaseConnection()
-	err = db.Where("id = ?", u.ID).Find(&u).Error
-	return err
-}
+// // Save ...
+// func (u *User) Save() (err error) {
+// 	db := config.GetDatabaseConnection()
+// 	if db.NewRecord(&u) {
+// 		err = db.Create(&u).Error
+// 	} else {
+// 		err = db.Save(&u).Error
+// 	}
+// 	return err
+// }
 
-// Save ...
-func (u *User) Save() (err error) {
-	db := config.GetDatabaseConnection()
-	if db.NewRecord(&u) {
-		err = db.Create(&u).Error
-	} else {
-		err = db.Save(&u).Error
-	}
-	return err
-}
-
-// Destroy ...
-func (u *User) Destroy() (err error) {
-	db := config.GetDatabaseConnection()
-	err = db.Delete(&u).Error
-	return err
-}
-
-/**
- * Private Helpers
- */
-func (u *User) mergeForm(form UserForm) {
-	u.Email = form.Email
-	u.FirstName = form.FirstName
-	u.LastName = form.LastName
-	u.Birthday = form.Birthday
-	u.PassCode = form.PassCode
-	u.Weight = form.Weight
-}
+// // Destroy ...
+// func (u *User) Destroy() (err error) {
+// 	db := config.GetDatabaseConnection()
+// 	err = db.Delete(&u).Error
+// 	return err
+// }
