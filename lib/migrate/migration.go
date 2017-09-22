@@ -7,8 +7,7 @@ import (
 	"time"
 
 	"github.com/sirupsen/logrus"
-
-	"github.com/w3tecch/go-api-boilerplate/config"
+	"github.com/w3tecch/go-api-boilerplate/config/database"
 )
 
 // MigrationRecord ...
@@ -59,7 +58,7 @@ func (m *Migration) Run(direction bool) (err error) {
 	defer f.Close()
 
 	statements := getSQLStatements(f, direction)
-	db := config.GetDatabaseConnection()
+	db := database.Connection()
 
 	// Begin a transaction
 	tx := db.Begin()

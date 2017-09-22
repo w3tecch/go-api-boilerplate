@@ -2,10 +2,10 @@ package controllers
 
 import (
 	"net/http"
-	"os"
 	"runtime"
 
 	"github.com/gin-gonic/gin"
+	"github.com/w3tecch/go-api-boilerplate/config/env"
 	"github.com/w3tecch/go-api-boilerplate/lib/seeder"
 	"github.com/w3tecch/go-api-boilerplate/seeds"
 )
@@ -23,8 +23,8 @@ type APIController struct{}
 // GetInfo ...
 func (ctrl APIController) GetInfo(c *gin.Context) {
 	c.JSON(http.StatusOK, APIInfo{
-		Name:      os.Getenv("API_TITLE"),
-		Version:   os.Getenv("API_VERSION"),
+		Name:      env.Get().APITitle,
+		Version:   env.Get().APIVersion,
 		GOVersion: runtime.Version(),
 	})
 }

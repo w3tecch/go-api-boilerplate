@@ -1,16 +1,16 @@
 package migrate
 
-import "github.com/w3tecch/go-api-boilerplate/config"
+import "github.com/w3tecch/go-api-boilerplate/config/database"
 
 // IsMigrationTableReady ...
 func IsMigrationTableReady() bool {
-	db := config.GetDatabaseConnection()
+	db := database.Connection()
 	return db.HasTable("version")
 }
 
 // CreateMigrationTable ...
 func CreateMigrationTable() (err error) {
-	db := config.GetDatabaseConnection()
+	db := database.Connection()
 	err = db.Exec(createVersionTableSQL()).Error
 	return err
 }

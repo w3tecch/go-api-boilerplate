@@ -1,12 +1,10 @@
 package migrate
 
-import (
-	"github.com/w3tecch/go-api-boilerplate/config"
-)
+import "github.com/w3tecch/go-api-boilerplate/config/database"
 
 // GetVersionOfDatabase returns the latest migration
 func GetVersionOfDatabase() (version int64, err error) {
-	db := config.GetDatabaseConnection()
+	db := database.Connection()
 	mr := MigrationRecord{}
 
 	err = db.Last(&mr).Error

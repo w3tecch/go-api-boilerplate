@@ -4,11 +4,11 @@ import (
 	"bytes"
 	"encoding/json"
 	"net/http"
-	"os"
 
 	jwtmiddleware "github.com/auth0/go-jwt-middleware"
 	"github.com/gin-gonic/gin"
-	"github.com/w3tecch/go-api-boilerplate/config"
+	"github.com/w3tecch/go-api-boilerplate/config/env"
+	"github.com/w3tecch/go-api-boilerplate/config/logger"
 )
 
 // Options to configure the middleware
@@ -42,7 +42,7 @@ type TokenInfo struct {
 var AuthenticationKey = "AUTH_TOKEN"
 
 // AuthenticationLog ...
-var AuthenticationLog = config.Logger{Scope: "app.middlewares.Authentication"}
+var AuthenticationLog = logger.Logger{Scope: "app.middlewares.Authentication"}
 
 // Authentication ...
 func Authentication(c *gin.Context) {
@@ -70,7 +70,7 @@ func Authentication(c *gin.Context) {
 	}
 	buffer := new(bytes.Buffer)
 	json.NewEncoder(buffer).Encode(body)
-	response, httpError := http.Post(os.Getenv("AUTH0_BASE_URL")+"/tokeninfo", "application/json; charset=utf-8", buffer)
+	response, httpError := http.Post(env.Get().Auth0BaseURL+"/tokeninfo", "application/json; charset=utf-8", buffer)
 	if httpError != nil {
 		c.AbortWithStatusJSON(http.StatusServiceUnavailable, gin.H{
 			"message": "Could not request auth service",

@@ -1,24 +1,27 @@
 package seeder
 
-import "github.com/w3tecch/go-api-boilerplate/config"
-import "fmt"
+import (
+	"fmt"
+
+	"github.com/w3tecch/go-api-boilerplate/config/database"
+)
 
 // IsSeederTableReady ...
 func IsSeederTableReady() bool {
-	db := config.GetDatabaseConnection()
+	db := database.Connection()
 	return db.HasTable("seeder")
 }
 
 // CreateSeederTable ...
 func CreateSeederTable() (err error) {
-	db := config.GetDatabaseConnection()
+	db := database.Connection()
 	err = db.Exec(createSeederTableSQL()).Error
 	return err
 }
 
 // LockDatabase ...
 func LockDatabase() (err error) {
-	db := config.GetDatabaseConnection()
+	db := database.Connection()
 	err = db.Exec(updateLockStatment()).Error
 	fmt.Println(updateLockStatment())
 	fmt.Println(err)
@@ -27,7 +30,7 @@ func LockDatabase() (err error) {
 
 // InsertLockDatabase ...
 func InsertLockDatabase() (err error) {
-	db := config.GetDatabaseConnection()
+	db := database.Connection()
 	err = db.Exec(getInsertLockStatment(), 1).Error
 	return err
 }

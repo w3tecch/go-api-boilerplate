@@ -1,11 +1,11 @@
-package app
+package routes
 
 import (
 	"github.com/w3tecch/go-api-boilerplate/app/controllers"
 	"github.com/w3tecch/go-api-boilerplate/app/middlewares"
 	"github.com/w3tecch/go-api-boilerplate/app/repositories"
 	"github.com/w3tecch/go-api-boilerplate/app/services"
-	"github.com/w3tecch/go-api-boilerplate/config"
+	"github.com/w3tecch/go-api-boilerplate/config/database"
 
 	"github.com/gin-gonic/gin"
 )
@@ -33,7 +33,7 @@ func Router() *gin.Engine {
 
 	// Define repos and services
 	// ------------------------------
-	db := config.GetDatabaseConnection()
+	db := database.Connection()
 
 	// Repositories
 	userRepository := repositories.NewUserRepository(db)

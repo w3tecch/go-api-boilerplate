@@ -1,24 +1,22 @@
-package config
+package database
 
 import (
-	"os"
-
-	"github.com/sirupsen/logrus"
-
 	"github.com/jinzhu/gorm"
+	"github.com/sirupsen/logrus"
+	"github.com/w3tecch/go-api-boilerplate/config/env"
 )
 
 var gormConn *gorm.DB
 
-// GetDatabaseConnection returns gorm connection
-func GetDatabaseConnection() *gorm.DB {
+// Connection returns gorm connection
+func Connection() *gorm.DB {
 	// Check if a connection allready exists
 	if gormConn != nil && gormConn.DB() != nil && gormConn.DB().Ping() == nil {
 		return gormConn
 	}
 
 	// Try to connect to the database
-	conn, err := gorm.Open(os.Getenv("DB_DIALECT"), os.Getenv("DB_CONNECTION"))
+	conn, err := gorm.Open(env.Get().DBDialect, env.Get().DBConnection)
 	if err != nil {
 		logrus.Fatal("Could not connect to the database")
 	}

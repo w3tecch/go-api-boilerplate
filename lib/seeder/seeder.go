@@ -3,11 +3,12 @@ package seeder
 import (
 	"time"
 
-	"github.com/w3tecch/go-api-boilerplate/config"
+	"github.com/w3tecch/go-api-boilerplate/config/database"
+	"github.com/w3tecch/go-api-boilerplate/config/logger"
 )
 
 // SeederLog ...
-var SeederLog = config.Logger{Scope: "seeder"}
+var SeederLog = logger.Logger{Scope: "seeder"}
 
 // SeederRecord ...
 type SeederRecord struct {
@@ -50,7 +51,7 @@ func Sync() {
 
 // IsSeedingAllowed ...
 func IsSeedingAllowed() bool {
-	db := config.GetDatabaseConnection()
+	db := database.Connection()
 	sr := SeederRecord{}
 
 	err := db.Last(&sr).Error

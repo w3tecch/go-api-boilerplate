@@ -1,4 +1,4 @@
-package config
+package logger
 
 import "github.com/sirupsen/logrus"
 import "fmt"
