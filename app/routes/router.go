@@ -25,11 +25,12 @@ func Router() *gin.Engine {
 	r.Use(gin.Recovery())
 
 	// Custom middlewares
-	r.Use(middlewares.Secure)
-	r.Use(middlewares.CORS)
-	r.Use(middlewares.NoCache)
-	r.Use(middlewares.Version)
-	// r.Use(middlewares.Authentication)
+	r.Use(middlewares.Secure())
+	r.Use(middlewares.CORS())
+	r.Use(middlewares.NoCache())
+	r.Use(middlewares.Version())
+	r.Use(middlewares.RequestID())
+	// r.Use(middlewares.Authentication())
 
 	// Define repos and services
 	// ------------------------------

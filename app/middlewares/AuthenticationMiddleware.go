@@ -45,61 +45,61 @@ var AuthenticationKey = "AUTH_TOKEN"
 var AuthenticationLog = logger.Logger{Scope: "app.middlewares.Authentication"}
 
 // Authentication ...
-func Authentication(c *gin.Context) {
+func Authentication() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		// Check if token is provided in the header of the request
+		authToken, err := jwtmiddleware.FromAuthHeader(c.Request)
+		if err != nil {
+			c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
+				"message": "Invalid token",
+				"error":   err.Error(),
+			})
+			return
+		}
+		if authToken == "" {
+			c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
+				"message": "No token provided",
+				"error":   nil,
+			})
+			return
+		}
 
-	// Check if token is provided in the header of the request
-	authToken, err := jwtmiddleware.FromAuthHeader(c.Request)
-	if err != nil {
-		c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
-			"message": "Invalid token",
-			"error":   err.Error(),
-		})
-		return
+		// Ask the auth0 server if the token is valid and retrieve the user
+		body := auth0Body{
+			Token: authToken,
+		}
+		buffer := new(bytes.Buffer)
+		json.NewEncoder(buffer).Encode(body)
+		response, httpError := http.Post(env.Get().Auth0BaseURL+"/tokeninfo", "application/json; charset=utf-8", buffer)
+		if httpError != nil {
+			c.AbortWithStatusJSON(http.StatusServiceUnavailable, gin.H{
+				"message": "Could not request auth service",
+				"error":   nil,
+			})
+			return
+		}
+
+		// Check if an error occurred
+		if response.StatusCode != 200 {
+			buf := new(bytes.Buffer)
+			buf.ReadFrom(response.Body)
+			s := buf.String()
+			// http.Error(rw, s, response.StatusCode)
+			c.AbortWithStatusJSON(response.StatusCode, gin.H{
+				"message": s,
+				"error":   nil,
+			})
+			return
+		}
+
+		// Add tokeninfo to the context
+		tokenInfo := new(TokenInfo)
+		decoder := json.NewDecoder(response.Body)
+		decoder.Decode(&tokenInfo)
+		c.Set(AuthenticationKey, tokenInfo)
+
+		// Go on
+		AuthenticationLog.Info("Successfully authenticated")
+		c.Next()
 	}
-	if authToken == "" {
-		c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
-			"message": "No token provided",
-			"error":   nil,
-		})
-		return
-	}
-
-	// Ask the auth0 server if the token is valid and retrieve the user
-	body := auth0Body{
-		Token: authToken,
-	}
-	buffer := new(bytes.Buffer)
-	json.NewEncoder(buffer).Encode(body)
-	response, httpError := http.Post(env.Get().Auth0BaseURL+"/tokeninfo", "application/json; charset=utf-8", buffer)
-	if httpError != nil {
-		c.AbortWithStatusJSON(http.StatusServiceUnavailable, gin.H{
-			"message": "Could not request auth service",
-			"error":   nil,
-		})
-		return
-	}
-
-	// Check if an error occurred
-	if response.StatusCode != 200 {
-		buf := new(bytes.Buffer)
-		buf.ReadFrom(response.Body)
-		s := buf.String()
-		// http.Error(rw, s, response.StatusCode)
-		c.AbortWithStatusJSON(response.StatusCode, gin.H{
-			"message": s,
-			"error":   nil,
-		})
-		return
-	}
-
-	// Add tokeninfo to the context
-	tokenInfo := new(TokenInfo)
-	decoder := json.NewDecoder(response.Body)
-	decoder.Decode(&tokenInfo)
-	c.Set(AuthenticationKey, tokenInfo)
-
-	// Go on
-	AuthenticationLog.Info("Successfully authenticated")
-	c.Next()
-
 }
