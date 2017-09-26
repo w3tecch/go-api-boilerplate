@@ -2,6 +2,7 @@ package logger
 
 import "github.com/sirupsen/logrus"
 import "fmt"
+import "github.com/w3tecch/go-api-boilerplate/config/env"
 
 // Logger ...
 type Logger struct {
@@ -27,6 +28,9 @@ func (l *Logger) WithFields(fields logrus.Fields) *Logger {
 
 // Debug ...
 func (l *Logger) Debug(text string, args ...interface{}) {
+	if env.Get().Name == "test" {
+		return
+	}
 	if len(args) == 0 {
 		logrus.WithFields(l.Fields).Debug(l.scopePrefix() + text)
 	} else {
@@ -36,6 +40,9 @@ func (l *Logger) Debug(text string, args ...interface{}) {
 
 // Info ...
 func (l *Logger) Info(text string, args ...interface{}) {
+	if env.Get().Name == "test" {
+		return
+	}
 	if len(args) == 0 {
 		logrus.WithFields(l.Fields).Info(l.scopePrefix() + text)
 	} else {
@@ -45,6 +52,9 @@ func (l *Logger) Info(text string, args ...interface{}) {
 
 // Warn ...
 func (l *Logger) Warn(text string, args ...interface{}) {
+	if env.Get().Name == "test" {
+		return
+	}
 	if len(args) == 0 {
 		logrus.WithFields(l.Fields).Warn(l.scopePrefix() + text)
 	} else {
@@ -54,6 +64,9 @@ func (l *Logger) Warn(text string, args ...interface{}) {
 
 // Error ...
 func (l *Logger) Error(text string, args ...interface{}) {
+	if env.Get().Name == "test" {
+		return
+	}
 	if len(args) == 0 {
 		logrus.WithFields(l.Fields).Error(l.scopePrefix() + text)
 	} else {
@@ -63,6 +76,9 @@ func (l *Logger) Error(text string, args ...interface{}) {
 
 // Fatal ...
 func (l *Logger) Fatal(text string, args ...interface{}) {
+	if env.Get().Name == "test" {
+		return
+	}
 	if len(args) == 0 {
 		logrus.WithFields(l.Fields).Fatal(l.scopePrefix() + text)
 	} else {
@@ -72,6 +88,9 @@ func (l *Logger) Fatal(text string, args ...interface{}) {
 
 // Panic ...
 func (l *Logger) Panic(text string, args ...interface{}) {
+	if env.Get().Name == "test" {
+		return
+	}
 	if len(args) == 0 {
 		logrus.WithFields(l.Fields).Panic(l.scopePrefix() + text)
 	} else {

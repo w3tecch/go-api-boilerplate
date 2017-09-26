@@ -23,7 +23,7 @@ func NewUserController(us *services.UserService) *UserController {
 func (uc *UserController) GetAll(c *gin.Context) {
 	data, ex := uc.UserService.GetAll()
 	if ex != nil {
-		ex.NewContext(c).Print()
+		ex.NewContextPrinter(c).Print()
 		return
 	}
 	c.JSON(http.StatusOK, gin.H{"data": data})
@@ -38,7 +38,7 @@ func (uc *UserController) GetByID(c *gin.Context) {
 
 	data, ex := uc.UserService.GetByID(id)
 	if ex != nil {
-		ex.NewContext(c).Print()
+		ex.NewContextPrinter(c).Print()
 		return
 	}
 
@@ -57,7 +57,7 @@ func (uc *UserController) Create(c *gin.Context) {
 
 	data, ex := uc.UserService.Create(form)
 	if ex != nil {
-		ex.NewContext(c).Print()
+		ex.NewContextPrinter(c).Print()
 		return
 	}
 
@@ -82,7 +82,7 @@ func (uc *UserController) Update(c *gin.Context) {
 
 	data, ex := uc.UserService.Update(id, form)
 	if ex != nil {
-		ex.NewContext(c).Print()
+		ex.NewContextPrinter(c).Print()
 		return
 	}
 
@@ -98,7 +98,7 @@ func (uc *UserController) Delete(c *gin.Context) {
 
 	_, ex := uc.UserService.Delete(id)
 	if ex != nil {
-		ex.NewContext(c).Print()
+		ex.NewContextPrinter(c).Print()
 		return
 	}
 

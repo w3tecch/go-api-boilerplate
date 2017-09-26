@@ -8,6 +8,11 @@ type Exception struct {
 	Message string
 }
 
+type ExceptionPrinter struct {
+	Exception *Exception
+	Context   *gin.Context
+}
+
 func NewException(code int, message string, err error) *Exception {
 	return &Exception{
 		Code:    code,
@@ -16,16 +21,11 @@ func NewException(code int, message string, err error) *Exception {
 	}
 }
 
-func (e *Exception) NewContext(c *gin.Context) *ExceptionPrinter {
+func (e *Exception) NewContextPrinter(c *gin.Context) *ExceptionPrinter {
 	return &ExceptionPrinter{
 		Exception: e,
 		Context:   c,
 	}
-}
-
-type ExceptionPrinter struct {
-	Exception *Exception
-	Context   *gin.Context
 }
 
 func (e *ExceptionPrinter) Print() {

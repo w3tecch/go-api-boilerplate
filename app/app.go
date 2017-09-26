@@ -1,14 +1,18 @@
 package app
 
 import (
+	"github.com/joho/godotenv"
 	"github.com/w3tecch/go-api-boilerplate/app/routes"
 	"github.com/w3tecch/go-api-boilerplate/config/env"
+	"github.com/w3tecch/go-api-boilerplate/config/logger"
 	"github.com/w3tecch/go-api-boilerplate/lib/migrate"
 	"github.com/w3tecch/go-api-boilerplate/lib/seeder"
 )
 
+var appLog = logger.Logger{Scope: "app"}
+
 func Setup() {
-	env.LoadEnvConfig()
+	LoadEnvConfig()
 	SetupDatabase()
 }
 
@@ -24,4 +28,18 @@ func SetupDatabase() {
 
 	// Initialize seeder
 	seeder.Sync()
+}
+
+func LoadEnvConfig() {
+	err := godotenv.Load()
+	if err != nil {
+		appLog.Fatal("Error loading .env file")
+	}
+}
+
+func LoadTestEnvConfig() {
+	err := godotenv.Load("../.env.testing")
+	if err != nil {
+		appLog.Fatal("Error loading .env file")
+	}
 }

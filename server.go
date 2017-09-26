@@ -1,7 +1,6 @@
 package main
 
 import (
-	_ "github.com/jinzhu/gorm/dialects/mysql"
 	"github.com/sirupsen/logrus"
 
 	"github.com/w3tecch/go-api-boilerplate/app"
