@@ -1,6 +1,7 @@
 package migrate
 
 import "github.com/w3tecch/go-api-boilerplate/config/database"
+import "fmt"
 
 // IsMigrationTableReady ...
 func IsMigrationTableReady() bool {
@@ -12,6 +13,7 @@ func IsMigrationTableReady() bool {
 func CreateMigrationTable() (err error) {
 	db := database.Connection()
 	err = db.Exec(createVersionTableSQL()).Error
+	fmt.Println(err)
 	return err
 }
 
