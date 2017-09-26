@@ -36,10 +36,3 @@ func LoadEnvConfig() {
 		appLog.Fatal("Error loading .env file")
 	}
 }
-
-func LoadTestEnvConfig() {
-	err := godotenv.Load("../.env.testing")
-	if err != nil {
-		appLog.Fatal("Error loading .env file")
-	}
-}
